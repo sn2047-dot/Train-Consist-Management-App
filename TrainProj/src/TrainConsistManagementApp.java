@@ -1,4 +1,12 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.LinkedList;
+import java.util.LinkedHashSet;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 class Bogie {
@@ -25,6 +33,7 @@ public class TrainConsistManagementApp {
         System.out.println("Initial bogie count: " + bogies.size());
 
         List<String> passengerBogies = new ArrayList<>();
+
         passengerBogies.add("Sleeper");
         passengerBogies.add("AC Chair");
         passengerBogies.add("First Class");
@@ -32,10 +41,13 @@ public class TrainConsistManagementApp {
         System.out.println("Passenger Bogies: " + passengerBogies);
 
         passengerBogies.remove("AC Chair");
+
         System.out.println("After Removal: " + passengerBogies);
+
         System.out.println("Sleeper exists: " + passengerBogies.contains("Sleeper"));
 
         Set<String> bogieIds = new HashSet<>();
+
         bogieIds.add("BG101");
         bogieIds.add("BG102");
         bogieIds.add("BG101");
@@ -45,6 +57,7 @@ public class TrainConsistManagementApp {
         System.out.println("Unique Bogie IDs: " + bogieIds);
 
         LinkedList<String> trainConsist = new LinkedList<>();
+
         trainConsist.add("Engine");
         trainConsist.add("Sleeper");
         trainConsist.add("AC");
@@ -52,12 +65,14 @@ public class TrainConsistManagementApp {
         trainConsist.add("Guard");
 
         trainConsist.add(2, "Pantry Car");
+
         trainConsist.removeFirst();
         trainConsist.removeLast();
 
         System.out.println("Final Train Consist: " + trainConsist);
 
         LinkedHashSet<String> formation = new LinkedHashSet<>();
+
         formation.add("Engine");
         formation.add("Sleeper");
         formation.add("Cargo");
@@ -67,6 +82,7 @@ public class TrainConsistManagementApp {
         System.out.println("Ordered Unique Formation: " + formation);
 
         HashMap<String, Integer> bogieCapacity = new HashMap<>();
+
         bogieCapacity.put("Sleeper", 72);
         bogieCapacity.put("AC Chair", 60);
         bogieCapacity.put("First Class", 24);
@@ -76,6 +92,7 @@ public class TrainConsistManagementApp {
         }
 
         List<Bogie> bogieList = new ArrayList<>();
+
         bogieList.add(new Bogie("Sleeper", 72));
         bogieList.add(new Bogie("AC Chair", 60));
         bogieList.add(new Bogie("First Class", 24));
@@ -104,5 +121,11 @@ public class TrainConsistManagementApp {
         for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
             System.out.println(entry.getKey() + " -> " + entry.getValue());
         }
+
+        int totalCapacity = bogieList.stream()
+                .map(b -> b.capacity)
+                .reduce(0, Integer::sum);
+
+        System.out.println("Total Seating Capacity: " + totalCapacity);
     }
 }
