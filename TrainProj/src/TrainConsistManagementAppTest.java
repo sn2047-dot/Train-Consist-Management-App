@@ -310,4 +310,41 @@ public class TrainConsistManagementAppTest {
         String[] bogieIds = {"BG101"};
         assertTrue(TrainConsistManagementApp.linearSearch(bogieIds, "BG101"));
     }
+
+    @Test
+    public void testSearch_EmptyArrayThrowsException() {
+        String[] bogieIds = {};
+        assertThrows(IllegalStateException.class, () -> TrainConsistManagementApp.linearSearch(bogieIds, "BG101"));
+        assertThrows(IllegalStateException.class, () -> TrainConsistManagementApp.binarySearch(bogieIds, "BG101"));
+    }
+
+    @Test
+    public void testBinarySearch_BogieFound() {
+        String[] bogieIds = {"BG101", "BG205", "BG309", "BG412", "BG550"}; // Already sorted
+        assertTrue(TrainConsistManagementApp.binarySearch(bogieIds, "BG309"));
+    }
+
+    @Test
+    public void testBinarySearch_BogieNotFound() {
+        String[] bogieIds = {"BG101", "BG205", "BG309", "BG412", "BG550"};
+        assertFalse(TrainConsistManagementApp.binarySearch(bogieIds, "BG999"));
+    }
+
+    @Test
+    public void testBinarySearch_FirstElementMatch() {
+        String[] bogieIds = {"BG101", "BG205", "BG309", "BG412", "BG550"};
+        assertTrue(TrainConsistManagementApp.binarySearch(bogieIds, "BG101"));
+    }
+
+    @Test
+    public void testBinarySearch_LastElementMatch() {
+        String[] bogieIds = {"BG101", "BG205", "BG309", "BG412", "BG550"};
+        assertTrue(TrainConsistManagementApp.binarySearch(bogieIds, "BG550"));
+    }
+
+    @Test
+    public void testBinarySearch_SingleElementArray() {
+        String[] bogieIds = {"BG101"};
+        assertTrue(TrainConsistManagementApp.binarySearch(bogieIds, "BG101"));
+    }
 }

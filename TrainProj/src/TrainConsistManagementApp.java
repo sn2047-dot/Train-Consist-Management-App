@@ -89,10 +89,35 @@ public class TrainConsistManagementApp {
     }
 
     public static boolean linearSearch(String[] bogieIds, String searchKey) {
-        if (bogieIds == null || searchKey == null) return false;
+        if (bogieIds == null || bogieIds.length == 0) {
+            throw new IllegalStateException("Cannot search in an empty bogie list.");
+        }
+        if (searchKey == null) return false;
         for (String id : bogieIds) {
             if (id.equals(searchKey)) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean binarySearch(String[] bogieIds, String searchKey) {
+        if (bogieIds == null || bogieIds.length == 0) {
+            throw new IllegalStateException("Cannot search in an empty bogie list.");
+        }
+        if (searchKey == null) return false;
+        
+        int low = 0;
+        int high = bogieIds.length - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            int cmp = searchKey.compareTo(bogieIds[mid]);
+            if (cmp == 0) {
+                return true;
+            } else if (cmp < 0) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
             }
         }
         return false;
