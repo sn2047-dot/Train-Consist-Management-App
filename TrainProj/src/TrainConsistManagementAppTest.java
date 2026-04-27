@@ -37,4 +37,45 @@ public class TrainConsistManagementAppTest {
     public void testRegex_CargoCodeUppercaseValidation() {
         assertFalse(TrainConsistManagementApp.isValidCargoCode("PET-Ab"));
     }
+
+    @Test
+    public void testSafety_AllBogiesValid() {
+        java.util.List<TrainConsistManagementApp.GoodsBogie> bogies = java.util.Arrays.asList(
+            new TrainConsistManagementApp.GoodsBogie("Cylindrical", "Petroleum"),
+            new TrainConsistManagementApp.GoodsBogie("Cylindrical", "Petroleum")
+        );
+        assertTrue(TrainConsistManagementApp.checkSafetyCompliance(bogies));
+    }
+
+    @Test
+    public void testSafety_CylindricalWithInvalidCargo() {
+        java.util.List<TrainConsistManagementApp.GoodsBogie> bogies = java.util.Arrays.asList(
+            new TrainConsistManagementApp.GoodsBogie("Cylindrical", "Coal")
+        );
+        assertFalse(TrainConsistManagementApp.checkSafetyCompliance(bogies));
+    }
+
+    @Test
+    public void testSafety_NonCylindricalBogiesAllowed() {
+        java.util.List<TrainConsistManagementApp.GoodsBogie> bogies = java.util.Arrays.asList(
+            new TrainConsistManagementApp.GoodsBogie("Open", "Coal"),
+            new TrainConsistManagementApp.GoodsBogie("Box", "Grain")
+        );
+        assertTrue(TrainConsistManagementApp.checkSafetyCompliance(bogies));
+    }
+
+    @Test
+    public void testSafety_MixedBogiesWithViolation() {
+        java.util.List<TrainConsistManagementApp.GoodsBogie> bogies = java.util.Arrays.asList(
+            new TrainConsistManagementApp.GoodsBogie("Open", "Coal"),
+            new TrainConsistManagementApp.GoodsBogie("Cylindrical", "Grain")
+        );
+        assertFalse(TrainConsistManagementApp.checkSafetyCompliance(bogies));
+    }
+
+    @Test
+    public void testSafety_EmptyDataset() {
+        java.util.List<TrainConsistManagementApp.GoodsBogie> bogies = new java.util.ArrayList<>();
+        assertTrue(TrainConsistManagementApp.checkSafetyCompliance(bogies));
+    }
 }

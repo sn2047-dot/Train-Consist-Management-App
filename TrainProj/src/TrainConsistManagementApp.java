@@ -35,6 +35,26 @@ public class TrainConsistManagementApp {
         return cargoCode.matches("PET-[A-Z]{2}");
     }
 
+    public static class GoodsBogie {
+        String type;
+        String cargo;
+
+        public GoodsBogie(String type, String cargo) {
+            this.type = type;
+            this.cargo = cargo;
+        }
+    }
+
+    public static boolean checkSafetyCompliance(List<GoodsBogie> bogies) {
+        if (bogies == null || bogies.isEmpty()) return true;
+        return bogies.stream().allMatch(b -> {
+            if ("Cylindrical".equalsIgnoreCase(b.type)) {
+                return "Petroleum".equalsIgnoreCase(b.cargo);
+            }
+            return true;
+        });
+    }
+
     public static void main(String[] args) {
 
         System.out.println("=== Train Consist Management App ===");
