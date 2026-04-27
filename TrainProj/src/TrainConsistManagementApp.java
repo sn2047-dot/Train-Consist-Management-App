@@ -55,6 +55,22 @@ public class TrainConsistManagementApp {
         });
     }
 
+    public static List<Bogie> loopBasedFiltering(List<Bogie> bogies) {
+        List<Bogie> result = new ArrayList<>();
+        for (Bogie b : bogies) {
+            if (b.capacity > 60) {
+                result.add(b);
+            }
+        }
+        return result;
+    }
+
+    public static List<Bogie> streamBasedFiltering(List<Bogie> bogies) {
+        return bogies.stream()
+                .filter(b -> b.capacity > 60)
+                .collect(Collectors.toList());
+    }
+
     public static void main(String[] args) {
 
         System.out.println("=== Train Consist Management App ===");

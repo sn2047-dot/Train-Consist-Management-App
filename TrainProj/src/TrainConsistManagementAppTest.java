@@ -78,4 +78,67 @@ public class TrainConsistManagementAppTest {
         java.util.List<TrainConsistManagementApp.GoodsBogie> bogies = new java.util.ArrayList<>();
         assertTrue(TrainConsistManagementApp.checkSafetyCompliance(bogies));
     }
+
+    @Test
+    public void testLoopFilteringLogic() {
+        java.util.List<Bogie> bogies = java.util.Arrays.asList(
+            new Bogie("Sleeper", 72),
+            new Bogie("General", 60),
+            new Bogie("First Class", 24)
+        );
+        java.util.List<Bogie> filtered = TrainConsistManagementApp.loopBasedFiltering(bogies);
+        assertEquals(1, filtered.size());
+        assertEquals("Sleeper", filtered.get(0).name);
+    }
+
+    @Test
+    public void testStreamFilteringLogic() {
+        java.util.List<Bogie> bogies = java.util.Arrays.asList(
+            new Bogie("Sleeper", 72),
+            new Bogie("General", 60),
+            new Bogie("First Class", 24)
+        );
+        java.util.List<Bogie> filtered = TrainConsistManagementApp.streamBasedFiltering(bogies);
+        assertEquals(1, filtered.size());
+        assertEquals("Sleeper", filtered.get(0).name);
+    }
+
+    @Test
+    public void testLoopAndStreamResultsMatch() {
+        java.util.List<Bogie> bogies = java.util.Arrays.asList(
+            new Bogie("Sleeper", 72),
+            new Bogie("General", 60),
+            new Bogie("AC", 64),
+            new Bogie("First Class", 24)
+        );
+        java.util.List<Bogie> loopResult = TrainConsistManagementApp.loopBasedFiltering(bogies);
+        java.util.List<Bogie> streamResult = TrainConsistManagementApp.streamBasedFiltering(bogies);
+        assertEquals(loopResult.size(), streamResult.size());
+    }
+
+    @Test
+    public void testExecutionTimeMeasurement() {
+        java.util.List<Bogie> bogies = java.util.Arrays.asList(
+            new Bogie("Sleeper", 72),
+            new Bogie("General", 60)
+        );
+        long start = System.nanoTime();
+        TrainConsistManagementApp.loopBasedFiltering(bogies);
+        long end = System.nanoTime();
+        long elapsed = end - start;
+        assertTrue(elapsed > 0);
+    }
+
+    @Test
+    public void testLargeDatasetProcessing() {
+        java.util.List<Bogie> bogies = new java.util.ArrayList<>();
+        for (int i = 0; i < 10000; i++) {
+            bogies.add(new Bogie("Bogie" + i, (i % 100) + 1));
+        }
+        long start = System.nanoTime();
+        java.util.List<Bogie> filtered = TrainConsistManagementApp.streamBasedFiltering(bogies);
+        long end = System.nanoTime();
+        assertTrue(filtered.size() > 0);
+        assertTrue((end - start) > 0);
+    }
 }
