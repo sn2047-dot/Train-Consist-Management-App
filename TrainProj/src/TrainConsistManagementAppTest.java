@@ -178,4 +178,36 @@ public class TrainConsistManagementAppTest {
         assertNotNull(b1);
         assertNotNull(b2);
     }
+
+    @Test
+    public void testCargo_SafeAssignment() {
+        TrainConsistManagementApp.GoodsBogie bogie = new TrainConsistManagementApp.GoodsBogie("Cylindrical", "None");
+        boolean result = TrainConsistManagementApp.safeAssignCargo(bogie, "Petroleum");
+        assertTrue(result);
+        assertEquals("Petroleum", bogie.cargo);
+    }
+
+    @Test
+    public void testCargo_UnsafeAssignmentHandled() {
+        TrainConsistManagementApp.GoodsBogie bogie = new TrainConsistManagementApp.GoodsBogie("Rectangular", "Coal");
+        boolean result = TrainConsistManagementApp.safeAssignCargo(bogie, "Petroleum");
+        assertFalse(result);
+    }
+
+    @Test
+    public void testCargo_CargoNotAssignedAfterFailure() {
+        TrainConsistManagementApp.GoodsBogie bogie = new TrainConsistManagementApp.GoodsBogie("Rectangular", "Coal");
+        TrainConsistManagementApp.safeAssignCargo(bogie, "Petroleum");
+        assertEquals("Coal", bogie.cargo);
+    }
+
+    @Test
+    public void testCargo_ProgramContinuesAfterException() {
+        TrainConsistManagementApp.GoodsBogie bogie1 = new TrainConsistManagementApp.GoodsBogie("Rectangular", "Coal");
+        TrainConsistManagementApp.safeAssignCargo(bogie1, "Petroleum");
+        
+        TrainConsistManagementApp.GoodsBogie bogie2 = new TrainConsistManagementApp.GoodsBogie("Rectangular", "Grain");
+        boolean result = TrainConsistManagementApp.safeAssignCargo(bogie2, "Steel");
+        assertTrue(result);
+    }
 }

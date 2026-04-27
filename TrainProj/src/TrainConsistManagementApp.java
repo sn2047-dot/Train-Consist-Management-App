@@ -48,6 +48,26 @@ public class TrainConsistManagementApp {
         }
     }
 
+    public static void assignCargo(GoodsBogie bogie, String cargo) {
+        if ("Rectangular".equalsIgnoreCase(bogie.type) && "Petroleum".equalsIgnoreCase(cargo)) {
+            throw new CargoSafetyException("Unsafe Assignment: Petroleum cannot be assigned to a rectangular bogie.");
+        }
+        bogie.cargo = cargo;
+    }
+
+    public static boolean safeAssignCargo(GoodsBogie bogie, String cargo) {
+        boolean success = false;
+        try {
+            assignCargo(bogie, cargo);
+            success = true;
+        } catch (CargoSafetyException e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            System.out.println("Cargo assignment process completed.");
+        }
+        return success;
+    }
+
     public static boolean checkSafetyCompliance(List<GoodsBogie> bogies) {
         if (bogies == null || bogies.isEmpty()) return true;
         return bogies.stream().allMatch(b -> {
