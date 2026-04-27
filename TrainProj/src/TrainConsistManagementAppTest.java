@@ -80,7 +80,7 @@ public class TrainConsistManagementAppTest {
     }
 
     @Test
-    public void testLoopFilteringLogic() {
+    public void testLoopFilteringLogic() throws InvalidCapacityException {
         java.util.List<Bogie> bogies = java.util.Arrays.asList(
             new Bogie("Sleeper", 72),
             new Bogie("General", 60),
@@ -92,7 +92,7 @@ public class TrainConsistManagementAppTest {
     }
 
     @Test
-    public void testStreamFilteringLogic() {
+    public void testStreamFilteringLogic() throws InvalidCapacityException {
         java.util.List<Bogie> bogies = java.util.Arrays.asList(
             new Bogie("Sleeper", 72),
             new Bogie("General", 60),
@@ -104,7 +104,7 @@ public class TrainConsistManagementAppTest {
     }
 
     @Test
-    public void testLoopAndStreamResultsMatch() {
+    public void testLoopAndStreamResultsMatch() throws InvalidCapacityException {
         java.util.List<Bogie> bogies = java.util.Arrays.asList(
             new Bogie("Sleeper", 72),
             new Bogie("General", 60),
@@ -117,7 +117,7 @@ public class TrainConsistManagementAppTest {
     }
 
     @Test
-    public void testExecutionTimeMeasurement() {
+    public void testExecutionTimeMeasurement() throws InvalidCapacityException {
         java.util.List<Bogie> bogies = java.util.Arrays.asList(
             new Bogie("Sleeper", 72),
             new Bogie("General", 60)
@@ -130,7 +130,7 @@ public class TrainConsistManagementAppTest {
     }
 
     @Test
-    public void testLargeDatasetProcessing() {
+    public void testLargeDatasetProcessing() throws InvalidCapacityException {
         java.util.List<Bogie> bogies = new java.util.ArrayList<>();
         for (int i = 0; i < 10000; i++) {
             bogies.add(new Bogie("Bogie" + i, (i % 100) + 1));
@@ -140,5 +140,42 @@ public class TrainConsistManagementAppTest {
         long end = System.nanoTime();
         assertTrue(filtered.size() > 0);
         assertTrue((end - start) > 0);
+    }
+
+    @Test
+    public void testException_ValidCapacityCreation() throws InvalidCapacityException {
+        Bogie bogie = new Bogie("Sleeper", 72);
+        assertNotNull(bogie);
+    }
+
+    @Test
+    public void testException_NegativeCapacityThrowsException() {
+        assertThrows(InvalidCapacityException.class, () -> new Bogie("Sleeper", -10));
+    }
+
+    @Test
+    public void testException_ZeroCapacityThrowsException() {
+        assertThrows(InvalidCapacityException.class, () -> new Bogie("Sleeper", 0));
+    }
+
+    @Test
+    public void testException_ExceptionMessageValidation() {
+        InvalidCapacityException exception = assertThrows(InvalidCapacityException.class, () -> new Bogie("Sleeper", 0));
+        assertEquals("Capacity must be greater than zero", exception.getMessage());
+    }
+
+    @Test
+    public void testException_ObjectIntegrityAfterCreation() throws InvalidCapacityException {
+        Bogie bogie = new Bogie("Sleeper", 72);
+        assertEquals("Sleeper", bogie.name);
+        assertEquals(72, bogie.capacity);
+    }
+
+    @Test
+    public void testException_MultipleValidBogiesCreation() throws InvalidCapacityException {
+        Bogie b1 = new Bogie("Sleeper", 72);
+        Bogie b2 = new Bogie("General", 60);
+        assertNotNull(b1);
+        assertNotNull(b2);
     }
 }

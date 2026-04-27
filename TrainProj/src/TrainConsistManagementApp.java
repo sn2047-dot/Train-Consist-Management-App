@@ -13,7 +13,10 @@ class Bogie {
     String name;
     int capacity;
 
-    Bogie(String name, int capacity) {
+    Bogie(String name, int capacity) throws InvalidCapacityException {
+        if (capacity <= 0) {
+            throw new InvalidCapacityException("Capacity must be greater than zero");
+        }
         this.name = name;
         this.capacity = capacity;
     }
@@ -71,7 +74,7 @@ public class TrainConsistManagementApp {
                 .collect(Collectors.toList());
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvalidCapacityException {
 
         System.out.println("=== Train Consist Management App ===");
 
