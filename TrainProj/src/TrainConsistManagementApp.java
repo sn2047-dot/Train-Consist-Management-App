@@ -24,6 +24,17 @@ class Bogie {
 }
 
 public class TrainConsistManagementApp {
+
+    public static boolean isValidTrainID(String trainId) {
+        if (trainId == null) return false;
+        return trainId.matches("TRN-\\d{4}");
+    }
+
+    public static boolean isValidCargoCode(String cargoCode) {
+        if (cargoCode == null) return false;
+        return cargoCode.matches("PET-[A-Z]{2}");
+    }
+
     public static void main(String[] args) {
 
         System.out.println("=== Train Consist Management App ===");
