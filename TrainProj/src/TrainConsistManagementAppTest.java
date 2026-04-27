@@ -280,4 +280,34 @@ public class TrainConsistManagementAppTest {
         TrainConsistManagementApp.sortBogieNames(names);
         assertArrayEquals(new String[]{"Sleeper"}, names);
     }
+
+    @Test
+    public void testSearch_BogieFound() {
+        String[] bogieIds = {"BG101", "BG205", "BG309", "BG412", "BG550"};
+        assertTrue(TrainConsistManagementApp.linearSearch(bogieIds, "BG309"));
+    }
+
+    @Test
+    public void testSearch_BogieNotFound() {
+        String[] bogieIds = {"BG101", "BG205", "BG309", "BG412", "BG550"};
+        assertFalse(TrainConsistManagementApp.linearSearch(bogieIds, "BG999"));
+    }
+
+    @Test
+    public void testSearch_FirstElementMatch() {
+        String[] bogieIds = {"BG101", "BG205", "BG309", "BG412", "BG550"};
+        assertTrue(TrainConsistManagementApp.linearSearch(bogieIds, "BG101"));
+    }
+
+    @Test
+    public void testSearch_LastElementMatch() {
+        String[] bogieIds = {"BG101", "BG205", "BG309", "BG412", "BG550"};
+        assertTrue(TrainConsistManagementApp.linearSearch(bogieIds, "BG550"));
+    }
+
+    @Test
+    public void testSearch_SingleElementArray() {
+        String[] bogieIds = {"BG101"};
+        assertTrue(TrainConsistManagementApp.linearSearch(bogieIds, "BG101"));
+    }
 }

@@ -88,6 +88,16 @@ public class TrainConsistManagementApp {
         }
     }
 
+    public static boolean linearSearch(String[] bogieIds, String searchKey) {
+        if (bogieIds == null || searchKey == null) return false;
+        for (String id : bogieIds) {
+            if (id.equals(searchKey)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean checkSafetyCompliance(List<GoodsBogie> bogies) {
         if (bogies == null || bogies.isEmpty()) return true;
         return bogies.stream().allMatch(b -> {
