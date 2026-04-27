@@ -245,4 +245,39 @@ public class TrainConsistManagementAppTest {
         TrainConsistManagementApp.bubbleSort(capacities);
         assertArrayEquals(new int[]{40, 40, 40}, capacities);
     }
+
+    @Test
+    public void testSort_BasicAlphabeticalSorting() {
+        String[] names = {"Sleeper", "AC Chair", "First Class", "General", "Luxury"};
+        TrainConsistManagementApp.sortBogieNames(names);
+        assertArrayEquals(new String[]{"AC Chair", "First Class", "General", "Luxury", "Sleeper"}, names);
+    }
+
+    @Test
+    public void testSort_UnsortedInput() {
+        String[] names = {"Luxury", "General", "Sleeper", "AC Chair"};
+        TrainConsistManagementApp.sortBogieNames(names);
+        assertArrayEquals(new String[]{"AC Chair", "General", "Luxury", "Sleeper"}, names);
+    }
+
+    @Test
+    public void testSort_AlreadySortedArrayBogie() {
+        String[] names = {"AC Chair", "First Class", "General"};
+        TrainConsistManagementApp.sortBogieNames(names);
+        assertArrayEquals(new String[]{"AC Chair", "First Class", "General"}, names);
+    }
+
+    @Test
+    public void testSort_DuplicateBogieNames() {
+        String[] names = {"Sleeper", "AC Chair", "Sleeper", "General"};
+        TrainConsistManagementApp.sortBogieNames(names);
+        assertArrayEquals(new String[]{"AC Chair", "General", "Sleeper", "Sleeper"}, names);
+    }
+
+    @Test
+    public void testSort_SingleElementArrayBogie() {
+        String[] names = {"Sleeper"};
+        TrainConsistManagementApp.sortBogieNames(names);
+        assertArrayEquals(new String[]{"Sleeper"}, names);
+    }
 }

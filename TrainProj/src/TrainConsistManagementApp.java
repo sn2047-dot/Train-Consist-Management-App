@@ -81,6 +81,13 @@ public class TrainConsistManagementApp {
         }
     }
 
+    public static void sortBogieNames(String[] names) {
+        if (names != null) {
+            java.util.Arrays.sort(names);
+            System.out.println("Sorted Bogie Names: " + java.util.Arrays.toString(names));
+        }
+    }
+
     public static boolean checkSafetyCompliance(List<GoodsBogie> bogies) {
         if (bogies == null || bogies.isEmpty()) return true;
         return bogies.stream().allMatch(b -> {
